@@ -23,9 +23,9 @@ def signupuser(request):
                 login(request, user)
                 return redirect('currenttodos')
             except IntegrityError:
-                return render(request, 'todo/signupuser.html', {'form': UserCreationForm(), 'error': 'Это имя пользователя уже занято. Пожалуйста, выберите новое имя пользователя.'})
+                return render(request, 'todo/signupuser.html', {'form': UserCreationForm(), 'error': 'That username has already been taken. Please choose a new username.'})
         else:
-            return render(request, 'todo/signupuser.html', {'form': UserCreationForm(), 'error': 'Пароли не совпадают.'})
+            return render(request, 'todo/signupuser.html', {'form': UserCreationForm(), 'error': 'Passwords did not match.'})
 
 def loginuser(request):
     if request.method == 'GET':
@@ -33,7 +33,7 @@ def loginuser(request):
     else:
         user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
         if user is None:
-            return render(request, 'todo/loginuser.html', {'form': AuthenticationForm(), 'error': 'Имя пользователя и пароль не совпадают.'})
+            return render(request, 'todo/loginuser.html', {'form': AuthenticationForm(), 'error': 'Username and password did not match'})
         else:
             login(request, user)
             return redirect('currenttodos')
@@ -60,7 +60,7 @@ def viewtodo(request, todo_pk):
             form.save()
             return redirect('currenttodos')
         except ValueError:
-            return render(request, 'todo/viewtodo.html', {'todo': todo, 'form': form, 'error': 'Неверные данные.'})
+            return render(request, 'todo/viewtodo.html', {'todo': todo, 'form': form, 'error': 'Bad data passed in. Try again.'})
 
 @login_required
 def completetodo(request, todo_pk):
@@ -95,6 +95,6 @@ def createtodo(request):
             newtodo.save()
             return redirect('currenttodos')
         except ValueError:
-            return render(request, 'todo/createtodo.html', {'form': TodoForm(), 'error': 'Были введены неверные данные. Попробуйте ещё раз.'})
+            return render(request, 'todo/createtodo.html', {'form': TodoForm(), 'error': 'Bad info.'})
 
 
